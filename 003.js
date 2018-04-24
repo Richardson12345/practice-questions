@@ -1,46 +1,58 @@
-/**
-===============
-NON PALINDROME
-===============
+/*
+Minimum Distance Between Greatest Element
 
-Problem
---------
-nonPalindrome adalah sebuah function yang akan menerima satu parameter bertipe string.
-Function ini akan mengembalikan array satu dimensi yang berisikan kumpulan kata yang tidak palindrome.
+
+Diberikan sebuah function minDistanceBetweenGreatest yang menerima sebuah parameter array of number. Dimana array tersebut akan memiliki nilai terbesar yang kemunculannya bisa lebih dari satu kali. Tentukan minimum jarak antara nilai terbesar satu ke nilai terbesar lainnya.
 
 Contoh 1:
-input: 'Wow mereka janji bertemu di makam'
-output: ['mereka', 'janji', 'bertemu', 'di']
+Input : [ 3, 5, 2, 3, 5, 3, 5 ]
+Output : 2
+
+Karena nilai terbesar dari array tersebut adalah 5 dan indeksnya adalah 1, 4 dan 6
+- indeks 1 ke indeks 4, jaraknya adalah 3
+- indeks 4 ke indeks 6, jaraknya adalah 2 
+
+Jadi minimum jarak adalah 2
 
 Contoh 2:
-input: 'Katak naik honda civic pada malam hari di mimpi Dimitri'
-output: ['naik', 'honda', 'pada', 'hari', 'di', 'mimpi', 'Dimitri']
+Input : [ 1, 1, 1, 1, 1, 1 ]
+Output : 1
 
 
-RULES:
-- Tidak boleh menggunakan .reverse(), .join()
+Karena nilai terbesar dari array tersebut adalah 1 dan indeksnya adalah 0, 1, 2, 3, 4 dan 5
+- indeks 0 ke indeks 1, jaraknya adalah 1
+- indeks 1 ke indeks 2, jaraknya adalah 1
+- indeks 2 ke indeks 3, jaraknya adalah 1
+- indeks 3 ke indeks 4, jaraknya adalah 1
+- indeks 4 ke indeks 5, jaraknya adalah 1
 
-**/
+Jadi minimum jarak adalah 1
 
-function nonPalindrome(sentence) {
-  var words = sentence.split(' ')
-  var notPalindromeArray = [];
-  for(z = 0; z < words.length; z++){
-    var notPalindrome = '';
-    for(k = words[z].length-1 ; k >= 0 ; k--){
-      notPalindrome += words[z][k];
-    }if(notPalindrome.toUpperCase() !== words[z].toUpperCase() && notPalindrome.toLowerCase() !== words[z].toLowerCase()){
-     notPalindromeArray.push(words[z]) 
+RULE:
+ - Dilarang menggunakan .map, .filter dan .reduce
+
+*/
+
+function minDistanceBetweenGreatest(arr) {
+  var maximum = Math.max.apply(null,arr);
+  var location = [];
+  var result = [];
+  for(z = 0; z < arr.length; z++){
+    if(arr[z] === maximum){
+      location.push(z)
     }
-  }return notPalindromeArray
+  }for(k = 0; k < location.length-1; k++){
+    result.push(Math.abs(location[k] - location[k+1]))
+  }
+    var lowestDistance = Math.min.apply(null,result);
+    if(lowestDistance === Infinity){
+      return 0
+    }return lowestDistance;
+  
+  
   // your code here
 }
 
-console.log(nonPalindrome('Wow mereka janji bertemu di makam'));
-//['mereka', 'janji', 'bertemu', 'di']
-
-console.log(nonPalindrome('Katak naik honda civic pada malam hari di mimpi Dimitri'));
-//['naik', 'honda', 'pada', 'hari', 'di', 'mimpi', 'Dimitri']
-
-console.log(nonPalindrome('kasurrusak kalo dipisah menjadi kasur rusak'));
-//['kalo', 'dipisah', 'menjadi', 'kasur', 'rusak']
+console.log(minDistanceBetweenGreatest([ 3, 5, 2, 3, 5, 3, 5 ])); //2
+console.log(minDistanceBetweenGreatest([ 1, 1, 1, 1, 1, 1 ])); //1
+console.log(minDistanceBetweenGreatest([ 7, 8, 5, 2, 1, 1 ])); //0
